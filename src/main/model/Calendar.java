@@ -102,6 +102,7 @@ public class Calendar implements Writable {
         return myEvents;
     }
 
+    // CREDIT: JsonSerializationDemo
     // EFFECTS: save calendar as json Object and return it
     @Override
     public JSONObject toJson() {
@@ -111,6 +112,7 @@ public class Calendar implements Writable {
         return json;
     }
 
+    // CREDIT: JsonSerializationDemo
     // EFFECTS: save events to json Array
     public JSONArray eventsToJson() {
         JSONArray jsonArray = new JSONArray();

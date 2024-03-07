@@ -37,6 +37,7 @@ public class CalendarApp {
     }
 
     // EFFECTS: run the App
+    // CREDIT: TellerApp
     public void runCalendar() {
         boolean keepGoing = true;
         String cmd;
@@ -58,6 +59,7 @@ public class CalendarApp {
     }
 
     // EFFECTS: display main menu
+    // CREDIT: TellerApp
     public void displayMenu() {
         System.out.println("select from: ");
         System.out.println("l -> load calendar from file");

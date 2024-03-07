@@ -53,6 +53,7 @@ public class Event implements Writable {
                 (startTime < endTime);
     }
 
+    // CREDIT: JsonSerializationDemo
     // EFFECTS: return a JSON object that contains the information of the event
     @Override
     public JSONObject toJson() {
