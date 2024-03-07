@@ -70,46 +70,62 @@ public class CalendarApp {
     }
 
     // EFFECTS: proceed the command for main menu
-    @SuppressWarnings("checkstyle:MethodLength")
     public void proceedCmd(String cmd) {
         switch (cmd) {
-            case "l":
-                loadCalendar();
+            case "l": loadCalendar();
                 break;
-            case "a":
-                try {
-                    createEvent();
-                    System.out.println("Event successfully added!");
-                } catch (IllegalInputException e) {
-                    System.out.println(e.getMessage());
-                }
+            case "a": helperForAddEvent();
                 break;
-            case "d":
-                try {
-                    deleteEvent();
-                } catch (IllegalInputException e) {
-                    System.out.println(e.getMessage());
-                }
+            case "d": helperForDeleteEvent();
                 break;
-            case "p":
-                try {
-                    printEvents();
-                } catch (NoEventsException | IllegalInputException e) {
-                    System.out.println(e.getMessage());
-                }
+            case "p": helperForPrintEvents();
                 break;
-            case "c":
-                try {
-                    checkFriendTime();
-                } catch (IllegalInputException e) {
-                    System.out.println(e.getMessage());
-                }
+            case "c": helperForCheckFriendTime();
                 break;
-            case "s":
-                saveCalendar();
+            case "s": saveCalendar();
                 break;
-            default:
-                System.out.println("Selection not valid");
+            default: System.out.println("Selection not valid");
+        }
+    }
+
+    // EFFECTS: helper method for case "a"; throws IllegalInputException if the user's input does not follow the
+    //          required format
+    public void helperForAddEvent() {
+        try {
+            createEvent();
+            System.out.println("Event successfully added!");
+        } catch (IllegalInputException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    // EFFECTS: helper method for case "d"; throws IllegalInputException if the user's input does not follow the
+    //          required format
+    public void helperForDeleteEvent() {
+        try {
+            deleteEvent();
+        } catch (IllegalInputException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    // EFFECTS: helper method for case "p"; throws IllegalInputException if the user's input does not follow the
+    //          required format; throws NoEventsException if there are no events in the list
+    public void helperForPrintEvents() {
+        try {
+            printEvents();
+        } catch (NoEventsException | IllegalInputException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    // EFFECTS: helper method for case "c"; throws IllegalInputException if the user's input does not follow the
+    //          required format
+    public void helperForCheckFriendTime() {
+        try {
+            checkFriendTime();
+        } catch (IllegalInputException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -284,7 +300,7 @@ public class CalendarApp {
         }
     }
 
-    // EFFECTS: let user input an String and return it. if the format is wrong catches the InputMismatchException and
+    // EFFECTS: let user input a String and return it. if the format is wrong catches the InputMismatchException and
     //          let user input again until get the correct input
     private String stringInput() {
         String string;
