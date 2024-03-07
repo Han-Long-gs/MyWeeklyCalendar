@@ -1,0 +1,37 @@
+{
+  "calendarName": "han",
+  "eventList": [
+    {
+      "personName": "han",
+      "weekNum": 5,
+      "weekDay": 2,
+      "eventName": "study",
+      "startTime": 1200,
+      "endTime": 1400
+    },
+    {
+      "personName": "wang",
+      "weekNum": 5,
+      "weekDay": 2,
+      "eventName": "woofwoof",
+      "startTime": 1230,
+      "endTime": 1300
+    },
+    {
+      "personName": "mi",
+      "weekNum": 3,
+      "weekDay": 1,
+      "eventName": "meow",
+      "startTime": 1200,
+      "endTime": 1201
+    },
+    {
+      "personName": "lele",
+      "weekNum": 5,
+      "weekDay": 2,
+      "eventName": "meowmeow",
+      "startTime": 1300,
+      "endTime": 1500
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 package model;
 
-// represent a time interval
+// represents a time interval
 public class TimeInterval {
     private final int startTime;
     private final int endTime;
@@ -11,6 +11,7 @@ public class TimeInterval {
 
     }
 
+    // SIMPLE GETTERS
     public int getStartTime() {
         return startTime;
     }

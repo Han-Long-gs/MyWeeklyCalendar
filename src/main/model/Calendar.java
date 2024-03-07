@@ -1,38 +1,34 @@
 package model;
 
-import java.util.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
-// represent a list of events
-public class CalendarManage {
-    ArrayList<Event> calendar;
+// represents a calendar with user's name and a list of events
+public class Calendar implements Writable {
+    private String calendarName;
+    private List<Event> events;
 
-    public CalendarManage() {
-        calendar = new ArrayList<>();
-
+    public Calendar(String name) {
+        this.calendarName = name;
+        this.events = new ArrayList<>();
     }
 
+    // MODIFIES: this.events
+    // EFFECTS: add the given event to the calendar
     public void addEvent(Event event) {
-        calendar.add(event);
+        events.add(event);
     }
 
-    public void removeEvent(Event event) {
-        calendar.remove(event);
-    }
-
-    public ArrayList<Event> getCalendar() {
-        return calendar;
-    }
-
-    public boolean isEmpty() {
-        return calendar.isEmpty();
-    }
-
-    // EFFECTS: create a combined list of indicated friend and user's calendar; then return friend's valid time base
-    //          on the merged calendar.
+    // EFFECTS: find friend's valid time intervals base on my schedule (i.e. shared free time intervals) then return it
     public ArrayList<TimeInterval> showFriendValidTime(String friendName, String myName, int weekNum, int weekDay) {
         // create a list of that includes my friend's events
-        List<Event> mergedSchedule = calendar.stream()
+        List<Event> mergedSchedule = events.stream()
                 .filter(event -> (event.getPersonName().equalsIgnoreCase(friendName))
                         &&
                         event.getWeekNum() == weekNum
@@ -41,7 +37,7 @@ public class CalendarManage {
                 .collect(Collectors.toList());
 
         // create a list of all my events
-        List<Event> mySchedule = calendar.stream()
+        List<Event> mySchedule = events.stream()
                 .filter(event -> (event.getPersonName().equalsIgnoreCase(myName))
                         &&
                         event.getWeekNum() == weekNum
@@ -65,8 +61,8 @@ public class CalendarManage {
         return findFriendValidTime(mergedTime);
     }
 
-    // EFFECTS: return the friend's valid time base on the merged calendar; function as a helper method to
-    //          showFriendValidTime
+    // EFFECTS: return the friend's valid time interval base on the merged calendar; function as a helper method to
+    //          showFriendValidTime()
     public ArrayList<TimeInterval> findFriendValidTime(ArrayList<TimeInterval> mergedTime) {
         mergedTime.sort(Comparator.comparing(TimeInterval::getStartTime));
         int previousEnd = 0;
@@ -85,8 +81,9 @@ public class CalendarManage {
         return validTimeIntervals;
     }
 
+    // EFFECTS: return true if there are events under the given name; else false
     public boolean findName(String name) {
-        for (Event event : calendar) {
+        for (Event event : events) {
             if (event.getPersonName().equalsIgnoreCase(name)) {
                 return true;
             }
@@ -94,25 +91,47 @@ public class CalendarManage {
         return false;
     }
 
-    // REQUIRES: there aren't two events that share the exactly same info for six parameters
-    // EFFECTS: find the event that matches user's input
-    public Event findEvent(String name, String eventName, int weekNum, int weekDay, int startTime, int endTime) {
-        for (Event event : calendar) {
-            if (event.getPersonName().equalsIgnoreCase(name)
-                    &&
-                    event.getEventName().equalsIgnoreCase(eventName)
-                    &&
-                    weekNum == event.getWeekNum()
-                    &&
-                    weekDay == event.getWeekDay()
-                    &&
-                    startTime == event.getStartTime()
-                    &&
-                    endTime == event.getEndTime()) {
-                return event;
+    // EFFECTS: return all the events under the given name
+    public List<Event> getMyEvents(String name) {
+        List<Event> myEvents = new ArrayList<>();
+        for (Event e : events) {
+            if (e.getPersonName().equalsIgnoreCase(name)) {
+                myEvents.add(e);
             }
         }
-        return null;
+        return myEvents;
     }
 
+    // EFFECTS: save calendar as json Object and return it
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("calendarName", calendarName);
+        json.put("eventList", eventsToJson());
+        return json;
+    }
+
+    // EFFECTS: save events to json Array
+    public JSONArray eventsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Event e : events) {
+            jsonArray.put(e.toJson());
+        }
+
+        return jsonArray;
+    }
+
+    // SIMPLE GETTERS AND SETTERS
+    public List<Event> getEvents() {
+        return this.events;
+    }
+
+    public String getCalendarName() {
+        return this.calendarName;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
 }

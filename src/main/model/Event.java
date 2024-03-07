@@ -1,7 +1,10 @@
 package model;
 
-// represents a week calendar
-public class Event {
+import org.json.JSONObject;
+import persistence.Writable;
+
+// represents an event
+public class Event implements Writable {
     private final String personName;
     private final String eventName;
     private final int weekNum;
@@ -23,7 +26,6 @@ public class Event {
         for (int i = 0; i < name.length(); i++) {
             char c = name.charAt(i);
             if (!Character.isLetter(c) && c != ' ') {
-                System.out.println("Error: name can only contain letters and space");
                 return false;
             }
         }
@@ -41,7 +43,7 @@ public class Event {
     }
 
     // EFFECTS: return true if the time is legal (for example: 16:30 should be written as 1630, therefore, the first two
-    //          digits should be always >= 0 && < 24, the last two digits should always be >= 0 && < 60; the start time
+    //          digits should always be >= 0 && < 24, the last two digits should always be >= 0 && < 60; the start time
     //          should be less than the end time)
     public boolean checkTime(int startTime, int endTime) {
         return (startTime / 100 >= 0 && startTime / 100 < 24 && startTime % 100 >= 0 && startTime % 100 < 60)
@@ -51,6 +53,20 @@ public class Event {
                 (startTime < endTime);
     }
 
+    // EFFECTS: return a JSON object that contains the information of the event
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("personName", personName);
+        json.put("eventName", eventName);
+        json.put("weekNum", weekNum);
+        json.put("weekDay", weekDay);
+        json.put("startTime", startTime);
+        json.put("endTime", endTime);
+        return json;
+    }
+
+    // SIMPLE GETTERS
     public String getPersonName() {
         return personName;
     }
@@ -74,6 +90,5 @@ public class Event {
     public int getEndTime() {
         return endTime;
     }
-
 }
 

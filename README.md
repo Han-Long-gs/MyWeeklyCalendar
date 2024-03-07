@@ -15,11 +15,9 @@ users and themselves.
 
 
 ### User Stories
-
-- As a user, I want to be able to view my calendar.
-- As a user, I want to be able to add an event to my calendar.
-- As a user, I want to be able to delete an event from my calendar.
-- As a user, I want to be able to change an event from my calendar.
+- As a user, I want to be able to load and view my calendar, including the newly added one and previous one.
+- As a user, I want to be able to add an event to my calendar, and choose to save it or not.
+- As a user, I want to be able to delete an event from my calendar, and choose to remove it from the data or not.
 - As a user, I want to be able to check my friend's available time.
 
 (calendar is a list of events in this project)

@@ -1,8 +1,10 @@
 package model;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 
 class EventTest {
 
@@ -54,7 +56,19 @@ class EventTest {
         assertFalse(han.checkTime(1100, -1200));
         assertFalse(han.checkTime(1259, 1101));
         assertFalse(han.checkTime(1230, 1230));
+    }
 
+    @Test
+    void testToJson() {
+        JSONObject actual = han.toJson();
+        JSONObject expected = new JSONObject();
+        expected.put("personName", "Han");
+        expected.put("eventName", "Study");
+        expected.put("weekNum", 2);
+        expected.put("weekDay", 1);
+        expected.put("startTime", 1300);
+        expected.put("endTime", 1400);
+        assertEquals(expected.toString(), actual.toString());
     }
 
 }

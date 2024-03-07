@@ -1,0 +1,21 @@
+{
+    "calendarName": "han",
+    "eventList": [
+        {
+            "personName": "han",
+            "weekNum": 5,
+            "weekDay": 3,
+            "eventName": "study",
+            "startTime": 300,
+            "endTime": 600
+        },
+        {
+            "personName": "han",
+            "weekNum": 3,
+            "weekDay": 5,
+            "eventName": "daydreaming",
+            "startTime": 1200,
+            "endTime": 1300
+        }
+    ]
+}
