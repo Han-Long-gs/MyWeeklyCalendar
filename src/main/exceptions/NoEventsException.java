@@ -6,6 +6,5 @@ import javax.swing.*;
 public class NoEventsException extends Exception {
     public NoEventsException() {
         super("No events found. Redirect to the main menu...");
-        JOptionPane.showMessageDialog(null, "No events found!");
     }
 }

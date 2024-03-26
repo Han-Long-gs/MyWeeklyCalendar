@@ -168,6 +168,14 @@
             "eventName": "lab",
             "startTime": 2000,
             "endTime": 2300
+        },
+        {
+            "personName": "han",
+            "weekNum": 5,
+            "weekDay": 4,
+            "eventName": "haha",
+            "startTime": 1300,
+            "endTime": 1500
         }
     ]
 }

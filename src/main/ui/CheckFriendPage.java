@@ -1,6 +1,5 @@
 package ui;
 
-import exceptions.NoFriendFoundException;
 import model.Calendar;
 import model.Event;
 import model.TimeInterval;
@@ -123,11 +122,7 @@ public class CheckFriendPage implements ActionListener {
             inputErrorMsg();
             throw new RuntimeException();
         }
-        try {
-            findFriend(friendName);
-        } catch (NoFriendFoundException ex) {
-            throw new RuntimeException(ex);
-        }
+        findFriend(friendName);
         showFriendValidTime(friendName, weekNum, weekDay);
     }
 
@@ -151,9 +146,10 @@ public class CheckFriendPage implements ActionListener {
     }
 
     // EFFECTS: check if the friend exists
-    public void findFriend(String friendName) throws NoFriendFoundException {
+    public void findFriend(String friendName) {
         if (!calendar.findName(friendName)) {
-            throw new NoFriendFoundException();
+            JOptionPane.showMessageDialog(null, "No calendar found under this friend's name!");
+            throw new RuntimeException();
         }
     }
 
