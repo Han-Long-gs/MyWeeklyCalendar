@@ -158,7 +158,7 @@ public class CalendarApp {
     private void printEvents() throws NoEventsException, IllegalInputException {
         System.out.println("Please type your name");
         String name = stringInput();
-        if (!event.checkPersonName(name)) {
+        if (!Event.checkPersonName(name)) {
             throw new IllegalInputException();
         }
         List<Event> myEvents = calendar.getMyEvents(name);

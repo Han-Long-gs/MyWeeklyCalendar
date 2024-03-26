@@ -1,5 +1,7 @@
 package exceptions;
 
+import javax.swing.*;
+
 // exception for unexpected user's input
 public class IllegalInputException extends Exception {
     public IllegalInputException() {

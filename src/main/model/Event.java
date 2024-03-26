@@ -3,6 +3,8 @@ package model;
 import org.json.JSONObject;
 import persistence.Writable;
 
+import java.util.Objects;
+
 // represents an event
 public class Event implements Writable {
     private final String personName;
@@ -22,7 +24,7 @@ public class Event implements Writable {
     }
 
     // EFFECTS: return true if the person's name only contains letters and space; else false
-    public boolean checkPersonName(String name) {
+    public static boolean checkPersonName(String name) {
         for (int i = 0; i < name.length(); i++) {
             char c = name.charAt(i);
             if (!Character.isLetter(c) && c != ' ') {
@@ -33,19 +35,19 @@ public class Event implements Writable {
     }
 
     // EFFECTS: return true if the week number is greater than 0; else false
-    public boolean checkWeekNum(int weekNum) {
+    public static boolean checkWeekNum(int weekNum) {
         return weekNum > 0;
     }
 
     // EFFECTS: return true if the week day is between 1 and 7; else false
-    public boolean checkWeekDay(int weekDay) {
+    public static boolean checkWeekDay(int weekDay) {
         return 0 < weekDay && weekDay < 8;
     }
 
     // EFFECTS: return true if the time is legal (for example: 16:30 should be written as 1630, therefore, the first two
     //          digits should always be >= 0 && < 24, the last two digits should always be >= 0 && < 60; the start time
     //          should be less than the end time)
-    public boolean checkTime(int startTime, int endTime) {
+    public static boolean checkTime(int startTime, int endTime) {
         return (startTime / 100 >= 0 && startTime / 100 < 24 && startTime % 100 >= 0 && startTime % 100 < 60)
                 &&
                 (endTime / 100 >= 0 && endTime / 100 < 24 && endTime % 100 >= 0 && endTime % 100 < 60)
@@ -90,6 +92,34 @@ public class Event implements Writable {
 
     public int getEndTime() {
         return endTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Event event = (Event) o;
+        return weekNum == event.weekNum && weekDay == event.weekDay
+                && startTime == event.startTime
+                && endTime == event.endTime
+                && Objects.equals(personName, event.personName) && Objects.equals(eventName, event.eventName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(personName, eventName, weekNum, weekDay, startTime, endTime);
+    }
+
+    // EFFECTS: check if the input string is a number
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        return strNum.matches("\\d+");
     }
 }
 

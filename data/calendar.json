@@ -4,18 +4,74 @@
         {
             "personName": "han",
             "weekNum": 5,
+            "weekDay": 1,
+            "eventName": "study",
+            "startTime": 1200,
+            "endTime": 1400
+        },
+        {
+            "personName": "han",
+            "weekNum": 5,
+            "weekDay": 1,
+            "eventName": "cry",
+            "startTime": 1200,
+            "endTime": 1400
+        },
+        {
+            "personName": "han",
+            "weekNum": 5,
+            "weekDay": 1,
+            "eventName": "sleep",
+            "startTime": 1200,
+            "endTime": 1400
+        },
+        {
+            "personName": "han",
+            "weekNum": 5,
             "weekDay": 2,
             "eventName": "study",
             "startTime": 1200,
             "endTime": 1400
         },
         {
-            "personName": "wang",
-            "weekNum": 1,
+            "personName": "han",
+            "weekNum": 5,
             "weekDay": 3,
-            "eventName": "woofwoof",
+            "eventName": "study",
             "startTime": 1200,
-            "endTime": 2300
+            "endTime": 1400
+        },
+        {
+            "personName": "han",
+            "weekNum": 5,
+            "weekDay": 4,
+            "eventName": "study",
+            "startTime": 1200,
+            "endTime": 1400
+        },
+        {
+            "personName": "han",
+            "weekNum": 5,
+            "weekDay": 5,
+            "eventName": "study",
+            "startTime": 1200,
+            "endTime": 1400
+        },
+        {
+            "personName": "han",
+            "weekNum": 5,
+            "weekDay": 6,
+            "eventName": "study",
+            "startTime": 1200,
+            "endTime": 1400
+        },
+        {
+            "personName": "han",
+            "weekNum": 5,
+            "weekDay": 7,
+            "eventName": "study",
+            "startTime": 1200,
+            "endTime": 1400
         },
         {
             "personName": "wang",
@@ -48,6 +104,54 @@
             "eventName": "meowmeow",
             "startTime": 1300,
             "endTime": 1500
+        },
+        {
+            "personName": "cinzia",
+            "weekNum": 1,
+            "weekDay": 2,
+            "eventName": "lab",
+            "startTime": 1300,
+            "endTime": 1500
+        },
+        {
+            "personName": "han",
+            "weekNum": 10,
+            "weekDay": 5,
+            "eventName": "study",
+            "startTime": 1200,
+            "endTime": 1450
+        },
+        {
+            "personName": "han",
+            "weekNum": 10,
+            "weekDay": 1,
+            "eventName": "study",
+            "startTime": 1200,
+            "endTime": 1450
+        },
+        {
+            "personName": "han",
+            "weekNum": 5,
+            "weekDay": 2,
+            "eventName": "dagou",
+            "startTime": 800,
+            "endTime": 900
+        },
+        {
+            "personName": "han",
+            "weekNum": 5,
+            "weekDay": 4,
+            "eventName": "taoyangou",
+            "startTime": 1500,
+            "endTime": 1530
+        },
+        {
+            "personName": "han",
+            "weekNum": 5,
+            "weekDay": 5,
+            "eventName": "zuitaoyanchougou",
+            "startTime": 1400,
+            "endTime": 1600
         }
     ]
 }

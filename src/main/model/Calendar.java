@@ -25,6 +25,12 @@ public class Calendar implements Writable {
         events.add(event);
     }
 
+    // MODIFIES: this.events
+    // EFFECTS: remove the given event from the calendar
+    public void removeEvent(Event event) {
+        events.remove(event);
+    }
+
     // EFFECTS: find friend's valid time intervals base on my schedule (i.e. shared free time intervals) then return it
     public ArrayList<TimeInterval> showFriendValidTime(String friendName, String myName, int weekNum, int weekDay) {
         // create a list of that includes my friend's events
