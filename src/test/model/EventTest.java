@@ -71,4 +71,18 @@ class EventTest {
         assertEquals(expected.toString(), actual.toString());
     }
 
+    @Test
+    void testEquals() {
+        Event eventTest = new Event("Han", "Study", 2, 1, 1300, 1400);
+        Event eventTest2 = new Event("wang", "Study", 2, 1, 1300, 1400);
+        assertTrue(eventTest.equals(han));
+        assertFalse(eventTest2.equals(han));
+    }
+
+    @Test
+    void testIsNumeric() {
+        assertTrue(Event.isNumeric("20"));
+        assertFalse(Event.isNumeric("2T"));
+    }
+
 }

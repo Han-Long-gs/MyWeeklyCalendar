@@ -57,6 +57,12 @@ public class CalendarTest {
     }
 
     @Test
+    void testRemoveEvent() {
+        calendar.removeEvent(eventAH);
+        assertFalse(calendar.getEvents().contains(eventAH));
+    }
+
+    @Test
     void testShowFriendValidTime() {
         ArrayList<TimeInterval> testMerge= new ArrayList<>();
         testMerge.add(new TimeInterval(0, 800));
@@ -171,5 +177,6 @@ public class CalendarTest {
             assertEquals(expectedArray.getJSONObject(i).toString(), actualArray.getJSONObject(i).toString());
         }
     }
+
     
 }

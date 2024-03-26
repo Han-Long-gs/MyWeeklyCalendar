@@ -20,6 +20,7 @@ public class MainPage extends JFrame implements ActionListener {
     private static final int FRAME_HEIGHT = 600;
     private static final Font TITLE_FONT = new Font("SF Pro", Font.PLAIN, 20);
     private static final Dimension BOX_SIZE = new Dimension(70, 20);
+    JPanel centerPanel = new JPanel();
     private String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
     private String name;
     private int weekNum;
@@ -183,7 +184,6 @@ public class MainPage extends JFrame implements ActionListener {
         } else {
             calendar.addEvent(event);
             JOptionPane.showMessageDialog(null, "Event successfully created!");
-            centerSetUp();
         }
     }
 
@@ -264,7 +264,6 @@ public class MainPage extends JFrame implements ActionListener {
 
     // EFFECTS: set up the center panel of the page
     public void centerSetUp() {
-        JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new GridLayout(1, 7));
         centerPanel.setBackground(new Color(139, 170, 202));
 
