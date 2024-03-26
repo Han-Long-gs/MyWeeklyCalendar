@@ -409,7 +409,7 @@ public class MainPage extends JFrame implements ActionListener {
 
     private void bottomButtonVar() {
         buttonAllEvents = new JButton("Check All Events");
-        buttonAllEvents.setPreferredSize(new Dimension(100, 40));
+        buttonAllEvents.setPreferredSize(new Dimension(150, 40));
         buttonAllEvents.addActionListener(this);
         buttonAddEvent = new JButton("Add Event");
         buttonAddEvent.setPreferredSize(new Dimension(100, 40));

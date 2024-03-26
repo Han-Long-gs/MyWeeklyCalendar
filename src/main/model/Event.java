@@ -109,11 +109,6 @@ public class Event implements Writable {
                 && Objects.equals(personName, event.personName) && Objects.equals(eventName, event.eventName);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(personName, eventName, weekNum, weekDay, startTime, endTime);
-    }
-
     // EFFECTS: check if the input string is a number
     public static boolean isNumeric(String strNum) {
         if (strNum == null) {
