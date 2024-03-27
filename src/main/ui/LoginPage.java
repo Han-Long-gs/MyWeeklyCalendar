@@ -26,6 +26,7 @@ public class LoginPage implements ActionListener {
     private JTextField tfWeekNum;
     private JButton buttonCheck;
     private JButton buttonReset;
+    private JButton buttonCreate;
 
     private static final String JSON_STORE = "./data/calendar.json";
     private JsonReader jsonReader;
@@ -47,16 +48,19 @@ public class LoginPage implements ActionListener {
         tfWeekNum.setBounds(145, 120, 200, 25);
         tfWeekNum.setPreferredSize(new Dimension(80, 30));
 
+        buttonCreate = new JButton("Create Calendar");
+        buttonCreate.setBounds(10, 180, 150, 25);
+        buttonCreate.addActionListener(this);
+
         buttonCheck = new JButton("Check My Calendar");
-        buttonCheck.setBounds(80, 180, 150, 25);
+        buttonCheck.setBounds(170, 180, 150, 25);
         buttonCheck.addActionListener(this);
 
         buttonReset = new JButton("Reset My Input");
-        buttonReset.setBounds(260, 180, 150, 25);
+        buttonReset.setBounds(330, 180, 150, 25);
         buttonReset.addActionListener(this);
 
         jsonReader = new JsonReader(JSON_STORE);
-
         init();
     }
 
@@ -78,6 +82,7 @@ public class LoginPage implements ActionListener {
         frame.add(lbWeekNum);
         frame.add(tfName);
         frame.add(tfWeekNum);
+        frame.add(buttonCreate);
         frame.add(buttonCheck);
         frame.add(buttonReset);
     }
@@ -85,8 +90,10 @@ public class LoginPage implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == buttonReset) {
-            tfName.setText("");
-            tfWeekNum.setText("");
+            resetInput();
+        }
+        if (e.getSource() == buttonCreate) {
+            createCalendar();
         }
 
         if (e.getSource() == buttonCheck) {
@@ -94,9 +101,8 @@ public class LoginPage implements ActionListener {
             if (!Event.checkPersonName(name)) {
                 inputErrorMsg();
             }
-            String weekNumString = tfWeekNum.getText();
             int weekNum = 0;
-            if (Event.isNumeric(weekNumString)) {
+            if (Event.isNumeric(tfWeekNum.getText())) {
                 weekNum = Integer.parseInt(tfWeekNum.getText());
             } else {
                 inputErrorMsg();
@@ -108,6 +114,18 @@ public class LoginPage implements ActionListener {
 
             frame.setVisible(false);
         }
+    }
+
+    // EFFECTS: create new calendar
+    private void createCalendar() {
+        loadCalendar();
+        new CreateNewCalendarPage(calendar);
+    }
+
+    // EFFECTS: reset all the input in tf
+    private void resetInput() {
+        tfName.setText("");
+        tfWeekNum.setText("");
     }
 
     // EFFECTS: get main page
@@ -189,6 +207,7 @@ public class LoginPage implements ActionListener {
                     "Unable to read from file: " + JSON_STORE, "Warning", JOptionPane.WARNING_MESSAGE);
         }
     }
+
 
     public JFrame getFrame() {
         return frame;

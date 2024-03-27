@@ -33,9 +33,9 @@ public class MainPage extends JFrame implements ActionListener {
     private JFrame frame;
     //Top Panel
     private JLabel lbThisWeek;
-//    private JLabel lbWeekChoose;
-//    private JComboBox cbWeekChoose;
-//    private JButton buttonConfirmWeekChoose;
+    private JLabel lbWeekChoose;
+    private JComboBox cbWeekChoose;
+    private JButton buttonConfirmWeekChoose;
     //Center Panel
 //    private JPanel[] dayPanels;
 
@@ -50,7 +50,7 @@ public class MainPage extends JFrame implements ActionListener {
     private JTextField tfEndTime;
     private JLabel lbStartTime;
     private JLabel lbEndTime;
-    private JButton buttonAllEvents;
+//    private JButton buttonAllEvents;
     private JButton buttonAddEvent;
     private JButton buttonDeleteEvent;
     private JButton buttonCheckFriend;
@@ -115,33 +115,33 @@ public class MainPage extends JFrame implements ActionListener {
             checkFriendTime();
         }
 
-        if (e.getSource() == buttonAllEvents) {
-            checkAllMyEvents();
+        if (e.getSource() == buttonConfirmWeekChoose) {
+            changeWeekView();
         }
 
     }
     
     // EFFECTS: print all the user's events in a new window
-    public void checkAllMyEvents() {
-        setTitle("All Events");
-        setSize(600, 400);
-        setLocationRelativeTo(null);
-        setVisible(true);
-
-        JTextArea textArea = new JTextArea();
-        textArea.setEditable(false);
-
-        add(new JScrollPane(textArea), BorderLayout.CENTER);
-
-        textArea.append(String.format("%-10s %-10s %-10s %-10s %-10s %-10s%n", "personName",
-                "eventName", "weekNum", "weekDay", "startTime", "endTime"));
-
-        for (Event e : calendar.getMyEvents(name)) {
-            textArea.append(String.format("%-10s %-10s %-10d %-10d %-10s %-10s%n", e.getPersonName(),
-                    e.getEventName(), e.getWeekNum(), e.getWeekDay(), intToTime(e.getStartTime()),
-                    intToTime(e.getEndTime())));
-        }
-    }
+//    public void checkAllMyEvents() {
+//        setTitle("All Events");
+//        setSize(600, 400);
+//        setLocationRelativeTo(null);
+//        setVisible(true);
+//
+//        JTextArea textArea = new JTextArea();
+//        textArea.setEditable(false);
+//
+//        add(new JScrollPane(textArea), BorderLayout.CENTER);
+//
+//        textArea.append(String.format("%-10s %-10s %-10s %-10s %-10s %-10s%n", "personName",
+//                "eventName", "weekNum", "weekDay", "startTime", "endTime"));
+//
+//        for (Event e : calendar.getMyEvents(name)) {
+//            textArea.append(String.format("%-10s %-10s %-10d %-10d %-10s %-10s%n", e.getPersonName(),
+//                    e.getEventName(), e.getWeekNum(), e.getWeekDay(), intToTime(e.getStartTime()),
+//                    intToTime(e.getEndTime())));
+//        }
+//    }
 
     // EFFECTS: create an event and add it to the existing events
     public void createEvent() {
@@ -185,6 +185,7 @@ public class MainPage extends JFrame implements ActionListener {
             calendar.addEvent(event);
             JOptionPane.showMessageDialog(null, "Event successfully created!");
         }
+        resetCenterPanel();
     }
 
     // EFFECTS: remove an event from the existing events
@@ -229,6 +230,7 @@ public class MainPage extends JFrame implements ActionListener {
         } else {
             JOptionPane.showMessageDialog(null, "Event not found...");
         }
+        resetCenterPanel();
     }
 
     // EFFECTS: returns the corresponded week day String of the input week index
@@ -257,8 +259,49 @@ public class MainPage extends JFrame implements ActionListener {
         }
     }
 
+    // EFFECTS: check friend's valid time and print on the window
     public void checkFriendTime() {
         new CheckFriendPage(name, calendar);
+    }
+
+    // EFFECTS: change the center panel to the input week
+    public void changeWeekView() {
+        weekNum = Integer.parseInt(cbWeekChoose.getSelectedItem().toString());
+
+        List<Event> tempList = new ArrayList<>();
+
+        for (Event e : allEvents) {
+            if (e.getWeekNum() == weekNum && e.getPersonName().equalsIgnoreCase(name)) {
+                tempList.add(e);
+            }
+        }
+        thisUserEvents = tempList;
+        resetCenterPanel();
+    }
+
+    private void resetCenterPanel() {
+        while (centerPanel.getComponentCount() > 0) {
+            centerPanel.remove(0);
+        }
+        centerSetUp();
+        lbThisWeek.setText("Week: " + weekNum);
+        frame.add(centerPanel);
+        frame.setVisible(true);
+    }
+
+    // MODIFIES: this.cbWeekChoose
+    // EFFECTS: set up the week selection base on the user's name
+    public void addToWeekChoose() {
+        List<String> weekNumbers = new ArrayList<>();
+        for (Event e : thisUserEvents) {
+            if (!weekNumbers.contains(String.valueOf(e.getWeekNum()))) {
+                weekNumbers.add(String.valueOf(e.getWeekNum()));
+            }
+        }
+
+        for (String wn : weekNumbers) {
+            this.cbWeekChoose.addItem(wn);
+        }
     }
 
 
@@ -302,6 +345,12 @@ public class MainPage extends JFrame implements ActionListener {
         firstRow.setBackground(new Color(139, 170, 202));
         firstRow.add(lbThisWeek);
         topPanel.add(firstRow);
+
+        JPanel secondRow = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        secondRow.add(lbWeekChoose);
+        secondRow.add(cbWeekChoose);
+        secondRow.add(buttonConfirmWeekChoose);
+        topPanel.add(secondRow);
 
         frame.add(topPanel, BorderLayout.NORTH);
     }
@@ -352,7 +401,7 @@ public class MainPage extends JFrame implements ActionListener {
 
         JPanel secondRow = new JPanel(new FlowLayout(FlowLayout.CENTER));
         secondRow.setBackground(new Color(139, 170, 202));
-        secondRow.add(buttonAllEvents);
+//        secondRow.add(buttonAllEvents);
         secondRow.add(buttonAddEvent);
         secondRow.add(buttonDeleteEvent);
         secondRow.add(buttonCheckFriend);
@@ -397,6 +446,11 @@ public class MainPage extends JFrame implements ActionListener {
     public void topVar() {
         lbThisWeek = new JLabel("Week " + weekNum);
         lbThisWeek.setFont(TITLE_FONT);
+        lbWeekChoose = new JLabel("Choose Your Week: ");
+        cbWeekChoose = new JComboBox<>();
+        addToWeekChoose();
+        buttonConfirmWeekChoose = new JButton("Confirm");
+        buttonConfirmWeekChoose.addActionListener(this);
     }
 
 
@@ -407,9 +461,9 @@ public class MainPage extends JFrame implements ActionListener {
     }
 
     private void bottomButtonVar() {
-        buttonAllEvents = new JButton("Check All Events");
-        buttonAllEvents.setPreferredSize(new Dimension(150, 40));
-        buttonAllEvents.addActionListener(this);
+//        buttonAllEvents = new JButton("Check All Events");
+//        buttonAllEvents.setPreferredSize(new Dimension(150, 40));
+//        buttonAllEvents.addActionListener(this);
         buttonAddEvent = new JButton("Add Event");
         buttonAddEvent.setPreferredSize(new Dimension(100, 40));
         buttonAddEvent.addActionListener(this); //LOL I FORGOT TO ADD AND WONDERING WHY IT WON'T WORK
@@ -432,7 +486,7 @@ public class MainPage extends JFrame implements ActionListener {
         tfWeekNum = new JTextField();
         tfWeekNum.setPreferredSize(BOX_SIZE);
         cbDayNum = new JComboBox<>(days);
-        cbDayNum.setPreferredSize(BOX_SIZE);
+        cbDayNum.setPreferredSize(new Dimension(100, 40));
         lbWeekNum = new JLabel("Week Number: ");
         lbDayNum = new JLabel("Day of the Week: ");
         lbEventName = new JLabel("Event Name: ");
