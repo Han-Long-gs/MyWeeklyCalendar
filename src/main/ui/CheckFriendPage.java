@@ -94,6 +94,7 @@ public class CheckFriendPage implements ActionListener {
         frame.add(buttonReset);
     }
 
+    // EFFECTS: perform the desired action when key is pressed
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == buttonCheck) {
@@ -116,11 +117,11 @@ public class CheckFriendPage implements ActionListener {
             weekDay = Integer.parseInt(tfWeekDay.getText());
         } else {
             inputErrorMsg();
-            throw new RuntimeException();
+            throw new IllegalArgumentException();
         }
         if (!Event.checkPersonName(friendName) || !Event.checkWeekNum(weekNum) || !Event.checkWeekDay(weekDay)) {
             inputErrorMsg();
-            throw new RuntimeException();
+            throw new IllegalArgumentException();
         }
         findFriend(friendName);
         showFriendValidTime(friendName, weekNum, weekDay);

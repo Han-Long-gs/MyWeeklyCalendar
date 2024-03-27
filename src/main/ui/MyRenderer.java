@@ -6,10 +6,10 @@ import java.awt.*;
 // render the day panel
 public class MyRenderer extends JPanel implements ListCellRenderer {
     private String eventName;
-    private String time;
     private Color backGround;
     private Color foreGround;
 
+    // EFFECTS: get component
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
                                                   boolean cellHasFocus) {
@@ -20,6 +20,7 @@ public class MyRenderer extends JPanel implements ListCellRenderer {
         return this;
     }
 
+    // EFFECTS: get preferred size
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(60, 40);

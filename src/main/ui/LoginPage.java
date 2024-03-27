@@ -87,6 +87,7 @@ public class LoginPage implements ActionListener {
         frame.add(buttonReset);
     }
 
+    // EFFECTS: perform the desired action when key is pressed
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == buttonReset) {

@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.List;
 
-// represents the page for checking friend valid time
+// represents the page for creating new calendar
 public class CreateNewCalendarPage implements ActionListener {
     private Calendar calendar;
     private List<Event> events;
@@ -63,6 +63,7 @@ public class CreateNewCalendarPage implements ActionListener {
         buttonReset.addActionListener(this);
     }
 
+    // EFFECTS: init text fields
     private void textFieldSetUp() {
         tfName = new JTextField();
         tfName.setBounds(180, 30, 150, 25);
@@ -89,6 +90,7 @@ public class CreateNewCalendarPage implements ActionListener {
         tfEndTime.setPreferredSize(new Dimension(80, 30));
     }
 
+    // EFFECTS: init labels
     private void labelSetUp() {
         lbName = new JLabel("Name: ");
         lbName.setBounds(70, 30, 100, 25);
@@ -139,6 +141,7 @@ public class CreateNewCalendarPage implements ActionListener {
         frame.add(buttonReset);
     }
 
+    // EFFECTS: perform the actions when key is pressed
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == buttonCreate) {
@@ -169,22 +172,23 @@ public class CreateNewCalendarPage implements ActionListener {
             endTime = Integer.parseInt(endTimeString);
         } else {
             inputErrorMsg();
-            throw new RuntimeException();
+            throw new IllegalArgumentException();
         }
         checkInputValid(name, weekNum, weekDay, startTime, endTime);
         calendar.addEvent(new Event(name, eventName, weekNum, weekDay, startTime, endTime));
         saveCalendar();
     }
 
+    // EFFECTS: check if the input is valid and the name is not in the calendar yet
     private void checkInputValid(String name, int weekNum, int weekDay, int startTime, int endTime) {
         if (!Event.checkPersonName(name) || !Event.checkWeekNum(weekNum)
                 || !Event.checkWeekDay(weekDay) || !Event.checkTime(startTime, endTime)) {
             inputErrorMsg();
-            throw new RuntimeException();
+            throw new IllegalArgumentException();
         }
         if (calendar.findName(name)) {
             JOptionPane.showMessageDialog(null, "Person already exists. Please use check calendar");
-            throw new RuntimeException();
+            throw new IllegalArgumentException();
         }
     }
 

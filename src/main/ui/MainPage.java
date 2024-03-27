@@ -159,7 +159,7 @@ public class MainPage extends JFrame implements ActionListener {
             endTime = Integer.parseInt(tfEndTime.getText());
         } else {
             inputErrorMsg();
-            throw new RuntimeException();
+            throw new IllegalArgumentException();
         }
         createEventHelper(eventName, weekDay, startTime, endTime);
     }
@@ -168,7 +168,7 @@ public class MainPage extends JFrame implements ActionListener {
     private void createEventHelper(String eventName, int weekDay, int startTime, int endTime) {
         if (!Event.checkWeekDay(weekDay) || !Event.checkTime(startTime, endTime)) {
             inputErrorMsg();
-            throw new RuntimeException();
+            throw new IllegalArgumentException();
         }
         Event event = new Event(name, eventName, weekNum, weekDay, startTime, endTime);
         Event e1 = null;
@@ -185,7 +185,7 @@ public class MainPage extends JFrame implements ActionListener {
             calendar.addEvent(event);
             JOptionPane.showMessageDialog(null, "Event successfully created!");
         }
-        resetCenterPanel();
+        updateCenterPanel();
     }
 
     // EFFECTS: remove an event from the existing events
@@ -204,7 +204,7 @@ public class MainPage extends JFrame implements ActionListener {
             endTime = Integer.parseInt(tfEndTime.getText());
         } else {
             inputErrorMsg();
-            throw new RuntimeException();
+            throw new IllegalArgumentException();
         }
         deleteEventHelper(eventName, weekDay, startTime, endTime);
     }
@@ -213,7 +213,7 @@ public class MainPage extends JFrame implements ActionListener {
     private void deleteEventHelper(String eventName, int weekDay, int startTime, int endTime) {
         if (!Event.checkWeekDay(weekDay) || !Event.checkTime(startTime, endTime)) {
             inputErrorMsg();
-            throw new RuntimeException();
+            throw new IllegalArgumentException();
         }
         Event event = new Event(name, eventName, weekNum, weekDay, startTime, endTime);
         Event e1 = null;
@@ -230,7 +230,7 @@ public class MainPage extends JFrame implements ActionListener {
         } else {
             JOptionPane.showMessageDialog(null, "Event not found...");
         }
-        resetCenterPanel();
+        updateCenterPanel();
     }
 
     // EFFECTS: returns the corresponded week day String of the input week index
@@ -276,10 +276,11 @@ public class MainPage extends JFrame implements ActionListener {
             }
         }
         thisUserEvents = tempList;
-        resetCenterPanel();
+        updateCenterPanel();
     }
 
-    private void resetCenterPanel() {
+    // EFFECTS: reset and update the center panel
+    private void updateCenterPanel() {
         while (centerPanel.getComponentCount() > 0) {
             centerPanel.remove(0);
         }
@@ -368,6 +369,7 @@ public class MainPage extends JFrame implements ActionListener {
         return events.toArray(new String[0]);
     }
 
+    // EFFECTS: returns a string combining start and end time
     public String eventStartEndTime(Event e) {
         return (intToTime(e.getStartTime()) + " - " + intToTime(e.getEndTime()));
     }
@@ -401,7 +403,6 @@ public class MainPage extends JFrame implements ActionListener {
 
         JPanel secondRow = new JPanel(new FlowLayout(FlowLayout.CENTER));
         secondRow.setBackground(new Color(139, 170, 202));
-//        secondRow.add(buttonAllEvents);
         secondRow.add(buttonAddEvent);
         secondRow.add(buttonDeleteEvent);
         secondRow.add(buttonCheckFriend);
@@ -460,10 +461,8 @@ public class MainPage extends JFrame implements ActionListener {
         bottomButtonVar();
     }
 
+    // EFFECTS: init bottom buttons
     private void bottomButtonVar() {
-//        buttonAllEvents = new JButton("Check All Events");
-//        buttonAllEvents.setPreferredSize(new Dimension(150, 40));
-//        buttonAllEvents.addActionListener(this);
         buttonAddEvent = new JButton("Add Event");
         buttonAddEvent.setPreferredSize(new Dimension(100, 40));
         buttonAddEvent.addActionListener(this); //LOL I FORGOT TO ADD AND WONDERING WHY IT WON'T WORK
