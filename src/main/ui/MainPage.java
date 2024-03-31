@@ -120,28 +120,6 @@ public class MainPage extends JFrame implements ActionListener {
         }
 
     }
-    
-    // EFFECTS: print all the user's events in a new window
-//    public void checkAllMyEvents() {
-//        setTitle("All Events");
-//        setSize(600, 400);
-//        setLocationRelativeTo(null);
-//        setVisible(true);
-//
-//        JTextArea textArea = new JTextArea();
-//        textArea.setEditable(false);
-//
-//        add(new JScrollPane(textArea), BorderLayout.CENTER);
-//
-//        textArea.append(String.format("%-10s %-10s %-10s %-10s %-10s %-10s%n", "personName",
-//                "eventName", "weekNum", "weekDay", "startTime", "endTime"));
-//
-//        for (Event e : calendar.getMyEvents(name)) {
-//            textArea.append(String.format("%-10s %-10s %-10d %-10d %-10s %-10s%n", e.getPersonName(),
-//                    e.getEventName(), e.getWeekNum(), e.getWeekDay(), intToTime(e.getStartTime()),
-//                    intToTime(e.getEndTime())));
-//        }
-//    }
 
     // EFFECTS: create an event and add it to the existing events
     public void createEvent() {
@@ -149,11 +127,12 @@ public class MainPage extends JFrame implements ActionListener {
         String weekNumString = tfWeekNum.getText();
         String startTimeString = tfStartTime.getText();
         String endTimeString = tfEndTime.getText();
+        int weekNum = 0;
         int weekDay = 0;
         int startTime = 0;
         int endTime = 0;
         if (Event.isNumeric(weekNumString) && Event.isNumeric(startTimeString) && Event.isNumeric(endTimeString)) {
-            int weekNum = Integer.parseInt(tfWeekNum.getText());
+            weekNum = Integer.parseInt(tfWeekNum.getText());
             weekDay = weekStringToNum((String) cbDayNum.getSelectedItem());
             startTime = Integer.parseInt(tfStartTime.getText());
             endTime = Integer.parseInt(tfEndTime.getText());
@@ -161,11 +140,11 @@ public class MainPage extends JFrame implements ActionListener {
             inputErrorMsg();
             throw new IllegalArgumentException();
         }
-        createEventHelper(eventName, weekDay, startTime, endTime);
+        createEventHelper(weekNum, eventName, weekDay, startTime, endTime);
     }
 
     // EFFECTS: helper method for create event
-    private void createEventHelper(String eventName, int weekDay, int startTime, int endTime) {
+    private void createEventHelper(int weekNum, String eventName, int weekDay, int startTime, int endTime) {
         if (!Event.checkWeekDay(weekDay) || !Event.checkTime(startTime, endTime)) {
             inputErrorMsg();
             throw new IllegalArgumentException();
@@ -441,8 +420,6 @@ public class MainPage extends JFrame implements ActionListener {
                 + "Please input again...\n\n", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-
-
     // EFFECTS: init all the variables that relate to the top panel
     public void topVar() {
         lbThisWeek = new JLabel("Week " + weekNum);
@@ -481,6 +458,7 @@ public class MainPage extends JFrame implements ActionListener {
 
     }
 
+    // EFFECTS: init bottom text fields and combo box
     private void bottomInputVar() {
         tfWeekNum = new JTextField();
         tfWeekNum.setPreferredSize(BOX_SIZE);

@@ -17,7 +17,6 @@ import java.util.List;
 // Represents the login page
 public class LoginPage implements ActionListener {
     private Calendar calendar;
-    private List<Event> events;
 
     private JFrame frame;
     private JLabel lbName;

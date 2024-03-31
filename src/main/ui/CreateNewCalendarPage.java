@@ -2,7 +2,6 @@ package ui;
 
 import model.Calendar;
 import model.Event;
-import model.TimeInterval;
 import persistence.JsonWriter;
 
 import javax.swing.*;
@@ -15,8 +14,6 @@ import java.util.List;
 // represents the page for creating new calendar
 public class CreateNewCalendarPage implements ActionListener {
     private Calendar calendar;
-    private List<Event> events;
-    private String userName;
     private JsonWriter jsonWriter;
     private static final String JSON_STORE = "./data/calendar.json";
 
