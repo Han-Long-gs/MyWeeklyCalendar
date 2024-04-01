@@ -24,18 +24,25 @@ users and themselves.
 
 ### Phase 4: Task 2
 Logged Events:
+
 Sun Mar 31 18:55:31 PDT 2024
 Added to Calendar: test, test1, 5, 3, 1200, 1400
+
 Sun Mar 31 18:55:35 PDT 2024
 Added to Calendar: test, test1, 5, 3, 1200, 1400
+
 Sun Mar 31 18:55:54 PDT 2024
 Added to Calendar: han, study, 5, 2, 1200, 1300
+
 Sun Mar 31 18:55:59 PDT 2024
 Added to Calendar: test, test1, 5, 3, 1200, 1400
+
 Sun Mar 31 18:55:59 PDT 2024
 Added to Calendar: han, study, 5, 2, 1200, 1300
+
 Sun Mar 31 18:56:20 PDT 2024
 Added to Calendar: han, lunch, 4, 5, 1400, 1500
+
 Sun Mar 31 18:56:39 PDT 2024
 Removed from Calendar: han, study, 5, 2, 1200, 1300
 
