@@ -11,35 +11,37 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CalendarTest {
+    private EventLog eventLog;
     private Calendar calendar;
-    private Event eventAH;
-    private Event eventBH;
-    private Event eventCH;
-    private Event eventDH;
-    private Event eventAW;
-    private Event eventBW;
-    private Event eventCW;
-    private Event eventDW;
+    private MyEvent myEventAH;
+    private MyEvent myEventBH;
+    private MyEvent myEventCH;
+    private MyEvent myEventDH;
+    private MyEvent myEventAW;
+    private MyEvent myEventBW;
+    private MyEvent myEventCW;
+    private MyEvent myEventDW;
 
     @BeforeEach
     void runBefore() {
+        eventLog = EventLog.getInstance();
         calendar = new Calendar("Han");
-        eventAH = new Event("Han", "210", 1, 1, 1300, 1500);
-        eventBH = new Event("Han", "210", 1, 2, 800, 900);
-        eventCH = new Event("Han", "210", 2, 3, 800, 900);
-        eventDH = new Event("Han", "210", 2, 4, 800, 900);
-        eventAW = new Event("Wang", "210", 1, 1, 1250, 1320);
-        eventBW = new Event("Wang", "210", 1, 2, 800, 900);
-        eventCW = new Event("Wang", "210", 2, 3, 1300, 1500);
-        eventDW = new Event("Wang", "210", 2, 5, 800, 900);
-        calendar.addEvent(eventAH);
-        calendar.addEvent(eventBH);
-        calendar.addEvent(eventCH);
-        calendar.addEvent(eventDH);
-        calendar.addEvent(eventAW);
-        calendar.addEvent(eventBW);
-        calendar.addEvent(eventCW);
-        calendar.addEvent(eventDW);
+        myEventAH = new MyEvent("Han", "210", 1, 1, 1300, 1500);
+        myEventBH = new MyEvent("Han", "210", 1, 2, 800, 900);
+        myEventCH = new MyEvent("Han", "210", 2, 3, 800, 900);
+        myEventDH = new MyEvent("Han", "210", 2, 4, 800, 900);
+        myEventAW = new MyEvent("Wang", "210", 1, 1, 1250, 1320);
+        myEventBW = new MyEvent("Wang", "210", 1, 2, 800, 900);
+        myEventCW = new MyEvent("Wang", "210", 2, 3, 1300, 1500);
+        myEventDW = new MyEvent("Wang", "210", 2, 5, 800, 900);
+        calendar.addEvent(myEventAH);
+        calendar.addEvent(myEventBH);
+        calendar.addEvent(myEventCH);
+        calendar.addEvent(myEventDH);
+        calendar.addEvent(myEventAW);
+        calendar.addEvent(myEventBW);
+        calendar.addEvent(myEventCW);
+        calendar.addEvent(myEventDW);
     }
 
     @Test
@@ -51,15 +53,15 @@ public class CalendarTest {
 
     @Test
     void testAddEvent() {
-        Event test = new Event("mi", "210", 2, 5, 800, 900);
+        MyEvent test = new MyEvent("mi", "210", 2, 5, 800, 900);
         calendar.addEvent(test);
         assertTrue(calendar.getEvents().contains(test));
     }
 
     @Test
     void testRemoveEvent() {
-        calendar.removeEvent(eventAH);
-        assertFalse(calendar.getEvents().contains(eventAH));
+        calendar.removeEvent(myEventAH);
+        assertFalse(calendar.getEvents().contains(myEventAH));
     }
 
     @Test
@@ -134,19 +136,19 @@ public class CalendarTest {
 
     @Test
     void testGetMyEvents() {
-        List<Event> testEvents = calendar.getMyEvents("Han");
-        assertTrue(testEvents.contains(eventAH));
-        assertTrue(testEvents.contains(eventBH));
-        assertTrue(testEvents.contains(eventCH));
-        assertTrue(testEvents.contains(eventDH));
-        assertEquals(4, testEvents.size());
+        List<MyEvent> testMyEvents = calendar.getMyEvents("Han");
+        assertTrue(testMyEvents.contains(myEventAH));
+        assertTrue(testMyEvents.contains(myEventBH));
+        assertTrue(testMyEvents.contains(myEventCH));
+        assertTrue(testMyEvents.contains(myEventDH));
+        assertEquals(4, testMyEvents.size());
 
-        List<Event> testEventsB = calendar.getMyEvents("wang");
-        assertTrue(testEventsB.contains(eventAW));
-        assertTrue(testEventsB.contains(eventBW));
-        assertTrue(testEventsB.contains(eventCW));
-        assertTrue(testEventsB.contains(eventDW));
-        assertEquals(4, testEvents.size());
+        List<MyEvent> testEventsB = calendar.getMyEvents("wang");
+        assertTrue(testEventsB.contains(myEventAW));
+        assertTrue(testEventsB.contains(myEventBW));
+        assertTrue(testEventsB.contains(myEventCW));
+        assertTrue(testEventsB.contains(myEventDW));
+        assertEquals(4, testMyEvents.size());
     }
 
     @Test
@@ -161,10 +163,10 @@ public class CalendarTest {
     @Test
     void testEventsToJson() {
         Calendar test = new Calendar("test");
-        List<Event> testEvents = new ArrayList<>();
-        testEvents.add(eventAH);
-        testEvents.add(eventCH);
-        test.setEvents(testEvents);
+        List<MyEvent> testMyEvents = new ArrayList<>();
+        testMyEvents.add(myEventAH);
+        testMyEvents.add(myEventCH);
+        test.setEvents(testMyEvents);
         JSONArray actualArray = test.eventsToJson();
         JSONObject expected = new JSONObject("{\"calendarName\":\"Han\","
                 + "\"eventList\":[{\"personName\":\"Han\","

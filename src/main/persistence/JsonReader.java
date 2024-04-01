@@ -1,6 +1,6 @@
 package persistence;
 
-import model.Event;
+import model.MyEvent;
 import model.Calendar;
 
 import java.io.IOException;
@@ -70,8 +70,8 @@ public class JsonReader {
         int weekDay = jsonObject.getInt("weekDay");
         int startTime = jsonObject.getInt("startTime");
         int endTime = jsonObject.getInt("endTime");
-        Event event = new Event(name, eventName, weekNum, weekDay, startTime, endTime);
-        calendar.addEvent(event);
+        MyEvent myEvent = new MyEvent(name, eventName, weekNum, weekDay, startTime, endTime);
+        calendar.addEvent(myEvent);
     }
 
 }

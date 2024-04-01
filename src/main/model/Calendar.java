@@ -12,29 +12,43 @@ import java.util.stream.Collectors;
 // represents a calendar with user's name and a list of events
 public class Calendar implements Writable {
     private String calendarName;
-    private List<Event> events;
+    private List<MyEvent> myEvents;
 
     public Calendar(String name) {
         this.calendarName = name;
-        this.events = new ArrayList<>();
+        this.myEvents = new ArrayList<>();
     }
 
     // MODIFIES: this.events
     // EFFECTS: add the given event to the calendar
-    public void addEvent(Event event) {
-        events.add(event);
+    public void addEvent(MyEvent myEvent) {
+        myEvents.add(myEvent);
+        EventLog.getInstance().logEvent(new Event("Added to Calendar: "
+                + myEvent.getPersonName() + ", "
+                + myEvent.getEventName() + ", "
+                + myEvent.getWeekNum() + ", "
+                + myEvent.getWeekDay() + ", "
+                + myEvent.getStartTime() + ", "
+                + myEvent.getEndTime()));
     }
 
     // MODIFIES: this.events
     // EFFECTS: remove the given event from the calendar
-    public void removeEvent(Event event) {
-        events.remove(event);
+    public void removeEvent(MyEvent myEvent) {
+        myEvents.remove(myEvent);
+        EventLog.getInstance().logEvent(new Event("Removed from Calendar: "
+                + myEvent.getPersonName() + ", "
+                + myEvent.getEventName() + ", "
+                + myEvent.getWeekNum() + ", "
+                + myEvent.getWeekDay() + ", "
+                + myEvent.getStartTime() + ", "
+                + myEvent.getEndTime()));
     }
 
     // EFFECTS: find friend's valid time intervals base on my schedule (i.e. shared free time intervals) then return it
     public ArrayList<TimeInterval> showFriendValidTime(String friendName, String myName, int weekNum, int weekDay) {
         // create a list of that includes my friend's events
-        List<Event> mergedSchedule = events.stream()
+        List<MyEvent> mergedSchedule = myEvents.stream()
                 .filter(event -> (event.getPersonName().equalsIgnoreCase(friendName))
                         &&
                         event.getWeekNum() == weekNum
@@ -43,7 +57,7 @@ public class Calendar implements Writable {
                 .collect(Collectors.toList());
 
         // create a list of all my events
-        List<Event> mySchedule = events.stream()
+        List<MyEvent> mySchedule = myEvents.stream()
                 .filter(event -> (event.getPersonName().equalsIgnoreCase(myName))
                         &&
                         event.getWeekNum() == weekNum
@@ -57,9 +71,9 @@ public class Calendar implements Writable {
         ArrayList<TimeInterval> mergedTime = new ArrayList<>();
 
         // extract the time interval information from every event
-        for (Event event : mergedSchedule) {
+        for (MyEvent myEvent : mergedSchedule) {
             TimeInterval timeInterval;
-            timeInterval = new TimeInterval(event.getStartTime(), event.getEndTime());
+            timeInterval = new TimeInterval(myEvent.getStartTime(), myEvent.getEndTime());
             mergedTime.add(timeInterval);
         }
 
@@ -89,8 +103,8 @@ public class Calendar implements Writable {
 
     // EFFECTS: return true if there are events under the given name; else false
     public boolean findName(String name) {
-        for (Event event : events) {
-            if (event.getPersonName().equalsIgnoreCase(name)) {
+        for (MyEvent myEvent : myEvents) {
+            if (myEvent.getPersonName().equalsIgnoreCase(name)) {
                 return true;
             }
         }
@@ -98,14 +112,14 @@ public class Calendar implements Writable {
     }
 
     // EFFECTS: return all the events under the given name
-    public List<Event> getMyEvents(String name) {
-        List<Event> myEvents = new ArrayList<>();
-        for (Event e : events) {
+    public List<MyEvent> getMyEvents(String name) {
+        List<MyEvent> myMyEvents = new ArrayList<>();
+        for (MyEvent e : this.myEvents) {
             if (e.getPersonName().equalsIgnoreCase(name)) {
-                myEvents.add(e);
+                myMyEvents.add(e);
             }
         }
-        return myEvents;
+        return myMyEvents;
     }
 
     // CREDIT: JsonSerializationDemo
@@ -123,7 +137,7 @@ public class Calendar implements Writable {
     public JSONArray eventsToJson() {
         JSONArray jsonArray = new JSONArray();
 
-        for (Event e : events) {
+        for (MyEvent e : myEvents) {
             jsonArray.put(e.toJson());
         }
 
@@ -131,15 +145,15 @@ public class Calendar implements Writable {
     }
 
     // SIMPLE GETTERS AND SETTERS
-    public List<Event> getEvents() {
-        return this.events;
+    public List<MyEvent> getEvents() {
+        return this.myEvents;
     }
 
     public String getCalendarName() {
         return this.calendarName;
     }
 
-    public void setEvents(List<Event> events) {
-        this.events = events;
+    public void setEvents(List<MyEvent> myEvents) {
+        this.myEvents = myEvents;
     }
 }

@@ -1,6 +1,6 @@
 package persistence;
 
-import model.Event;
+import model.MyEvent;
 import model.Calendar;
 import org.junit.jupiter.api.Test;
 
@@ -40,17 +40,17 @@ public class JsonReaderTest extends JsonTest {
         JsonReader reader = new JsonReader("./data/testReaderGeneralCalendar.json");
         try {
             Calendar calendar = reader.read();
-            List<Event> events = calendar.getEvents();
+            List<MyEvent> myEvents = calendar.getEvents();
             assertEquals("han", calendar.getCalendarName());
-            assertEquals(4, events.size());
+            assertEquals(4, myEvents.size());
             checkEvent("han", "study",
-                    5, 2, 1200, 1400, events.get(0));
+                    5, 2, 1200, 1400, myEvents.get(0));
             checkEvent("wang", "woofwoof",
-                    5, 2, 1230, 1300, events.get(1));
+                    5, 2, 1230, 1300, myEvents.get(1));
             checkEvent("mi", "meow",
-                    3, 1, 1200, 1201, events.get(2));
+                    3, 1, 1200, 1201, myEvents.get(2));
             checkEvent("lele", "meowmeow",
-                    5, 2, 1300, 1500, events.get(3));
+                    5, 2, 1300, 1500, myEvents.get(3));
 
         } catch (IOException e) {
             fail("catched IOException when shouldn't");

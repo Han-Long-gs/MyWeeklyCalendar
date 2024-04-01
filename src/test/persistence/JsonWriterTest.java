@@ -1,6 +1,6 @@
 package persistence;
 
-import model.Event;
+import model.MyEvent;
 import model.Calendar;
 import org.junit.jupiter.api.Test;
 
@@ -45,12 +45,12 @@ public class JsonWriterTest extends JsonTest {
     void testWriterGeneralCalendar() {
         try {
             Calendar calendar = new Calendar("han");
-            Event eventA = new Event("han", "study",
+            MyEvent myEventA = new MyEvent("han", "study",
                     5, 3, 300, 600);
-            Event eventB = new Event("han", "daydreaming",
+            MyEvent myEventB = new MyEvent("han", "daydreaming",
                     3, 5, 1200, 1300);
-            calendar.addEvent(eventA);
-            calendar.addEvent(eventB);
+            calendar.addEvent(myEventA);
+            calendar.addEvent(myEventB);
             JsonWriter writer = new JsonWriter("./data/testWriterGeneralCalendar.json");
             writer.open();
             writer.write(calendar);

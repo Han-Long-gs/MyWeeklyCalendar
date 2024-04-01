@@ -1,9 +1,8 @@
 package ui;
 
 import model.Calendar;
-import model.Event;
+import model.MyEvent;
 import model.TimeInterval;
-import persistence.JsonReader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +14,7 @@ import java.util.List;
 // represents the page for checking friend valid time
 public class CheckFriendPage implements ActionListener {
     private Calendar calendar;
-    private List<Event> events;
+    private List<MyEvent> myEvents;
     private String userName;
 
     private JFrame frame;
@@ -112,14 +111,14 @@ public class CheckFriendPage implements ActionListener {
         String weekDayString = tfWeekDay.getText();
         int weekNum = 0;
         int weekDay = 0;
-        if (Event.isNumeric(weekNumString) && Event.isNumeric(weekDayString)) {
+        if (MyEvent.isNumeric(weekNumString) && MyEvent.isNumeric(weekDayString)) {
             weekNum = Integer.parseInt(tfWeekNum.getText());
             weekDay = Integer.parseInt(tfWeekDay.getText());
         } else {
             inputErrorMsg();
             throw new IllegalArgumentException();
         }
-        if (!Event.checkPersonName(friendName) || !Event.checkWeekNum(weekNum) || !Event.checkWeekDay(weekDay)) {
+        if (!MyEvent.checkPersonName(friendName) || !MyEvent.checkWeekNum(weekNum) || !MyEvent.checkWeekDay(weekDay)) {
             inputErrorMsg();
             throw new IllegalArgumentException();
         }

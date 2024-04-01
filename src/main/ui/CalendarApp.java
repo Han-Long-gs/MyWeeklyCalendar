@@ -3,9 +3,9 @@ package ui;
 import exceptions.IllegalInputException;
 import exceptions.NoEventsException;
 import model.Calendar;
+import model.MyEvent;
 import persistence.JsonReader;
 import persistence.JsonWriter;
-import model.Event;
 import model.TimeInterval;
 
 import java.io.FileNotFoundException;
@@ -18,9 +18,9 @@ import java.util.Scanner;
 // represents the interactive behaviors with users of the calendar app
 public class CalendarApp {
     private Scanner input;
-    private Event event;
+    private MyEvent myEvent;
     private Calendar calendar;
-    private List<Event> events;
+    private List<MyEvent> myEvents;
     private static final String JSON_STORE = "./data/calendar.json";
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
@@ -28,7 +28,7 @@ public class CalendarApp {
 
     // start the app, initialize the calendar and the reader and the writer, throws exception if file not found
     public CalendarApp() throws FileNotFoundException {
-        event = new Event("han", "study", 5, 2, 1200, 1300);
+        myEvent = new MyEvent("han", "study", 5, 2, 1200, 1300);
         calendar = new Calendar("han");
         jsonReader = new JsonReader(JSON_STORE);
         jsonWriter = new JsonWriter(JSON_STORE);
@@ -135,12 +135,12 @@ public class CalendarApp {
     private void checkFriendTime() throws IllegalInputException {
         System.out.println("Type your name");
         String name = stringInput();
-        if (!event.checkPersonName(name)) {
+        if (!myEvent.checkPersonName(name)) {
             throw new IllegalInputException();
         }
         System.out.println("Type your friend's name");
         String friendName = stringInput();
-        if (!event.checkPersonName(friendName)) {
+        if (!myEvent.checkPersonName(friendName)) {
             throw new IllegalInputException();
         }
         if (!calendar.findName(friendName)) {
@@ -158,19 +158,19 @@ public class CalendarApp {
     private void printEvents() throws NoEventsException, IllegalInputException {
         System.out.println("Please type your name");
         String name = stringInput();
-        if (!Event.checkPersonName(name)) {
+        if (!MyEvent.checkPersonName(name)) {
             throw new IllegalInputException();
         }
-        List<Event> myEvents = calendar.getMyEvents(name);
+        List<MyEvent> myMyEvents = calendar.getMyEvents(name);
 
-        if (myEvents.isEmpty()) {
+        if (myMyEvents.isEmpty()) {
             throw new NoEventsException();
         }
         System.out.println("-------------------------------------------------------------------------");
         System.out.println(String.format("%-10s %-10s %-10s %-10s %-10s %-10s", "personName",
                 "eventName", "weekNum", "weekDay", "startTime", "endTime"));
         System.out.println("-------------------------------------------------------------------------");
-        for (Event e : myEvents) {
+        for (MyEvent e : myMyEvents) {
             System.out.println(String.format("%-10s %-10s %-10d %-10d %-10s %-10s", e.getPersonName(),
                     e.getEventName(), e.getWeekNum(), e.getWeekDay(), intToTime(e.getStartTime()),
                     intToTime(e.getEndTime())));
@@ -195,7 +195,7 @@ public class CalendarApp {
     private void loadCalendar() {
         try {
             calendar = jsonReader.read();
-            events = calendar.getEvents();
+            myEvents = calendar.getEvents();
             System.out.println("Loaded Calendar from " + JSON_STORE);
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_STORE);
@@ -220,12 +220,12 @@ public class CalendarApp {
         System.out.println("please input your event end time");
         int endTime = intInput();
 
-        Event event = new Event(name, eventName, weekNum, weekDay, startTime, endTime);
-        if (!event.checkPersonName(name) || !event.checkWeekNum(weekNum) || !event.checkWeekDay(weekDay)
-                || !event.checkTime(startTime, endTime)) {
+        MyEvent myEvent = new MyEvent(name, eventName, weekNum, weekDay, startTime, endTime);
+        if (!myEvent.checkPersonName(name) || !myEvent.checkWeekNum(weekNum) || !myEvent.checkWeekDay(weekDay)
+                || !myEvent.checkTime(startTime, endTime)) {
             throw new IllegalInputException();
         }
-        calendar.addEvent(event);
+        calendar.addEvent(myEvent);
     }
 
 
@@ -246,9 +246,9 @@ public class CalendarApp {
         int startTime = intInput();
         System.out.println("please input your event end time");
         int endTime = intInput();
-        event = new Event(name, eventName, weekNum, weekDay, startTime, endTime);
-        if (!event.checkPersonName(name) || !event.checkWeekNum(weekNum) || !event.checkWeekDay(weekDay)
-                || !event.checkTime(startTime, endTime)) {
+        myEvent = new MyEvent(name, eventName, weekNum, weekDay, startTime, endTime);
+        if (!myEvent.checkPersonName(name) || !myEvent.checkWeekNum(weekNum) || !myEvent.checkWeekDay(weekDay)
+                || !myEvent.checkTime(startTime, endTime)) {
             throw new IllegalInputException();
         }
         if (removeEvent(name, eventName, weekNum, weekDay, startTime, endTime)) {
@@ -270,11 +270,11 @@ public class CalendarApp {
     // EFFECTS: helper method of deleteEvent. If the indicated event is found, remove the event and return true;
     //          else return false
     private boolean removeEvent(String name, String eventName, int weekNum, int weekDay, int startTime, int endTime) {
-        for (int i = 0; i < events.size(); i++) {
-            if (events.get(i).getPersonName().equals(name) && events.get(i).getEventName().equals(eventName)
-                    && events.get(i).getWeekNum() == weekNum && events.get(i).getWeekDay() == weekDay
-                    && events.get(i).getStartTime() == startTime && events.get(i).getEndTime() == endTime) {
-                events.remove(events.get(i));
+        for (int i = 0; i < myEvents.size(); i++) {
+            if (myEvents.get(i).getPersonName().equals(name) && myEvents.get(i).getEventName().equals(eventName)
+                    && myEvents.get(i).getWeekNum() == weekNum && myEvents.get(i).getWeekDay() == weekDay
+                    && myEvents.get(i).getStartTime() == startTime && myEvents.get(i).getEndTime() == endTime) {
+                myEvents.remove(myEvents.get(i));
                 return true;
             }
         }

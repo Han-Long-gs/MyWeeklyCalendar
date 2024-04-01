@@ -1,7 +1,7 @@
 package ui;
 
 import model.Calendar;
-import model.Event;
+import model.MyEvent;
 import persistence.JsonWriter;
 
 import javax.swing.*;
@@ -26,8 +26,8 @@ public class MainPage extends JFrame implements ActionListener {
     private int weekNum;
     private LoginPage loginPage;
     private Calendar calendar;
-    private List<Event> allEvents;
-    private List<Event> thisUserEvents;
+    private List<MyEvent> allMyEvents;
+    private List<MyEvent> thisUserMyEvents;
     private static final String JSON_STORE = "./data/calendar.json";
     private JsonWriter jsonWriter;
     private JFrame frame;
@@ -63,10 +63,11 @@ public class MainPage extends JFrame implements ActionListener {
         this.name = name;
         this.weekNum = weekNum;
         this.calendar = calendar;
-        this.allEvents = calendar.getEvents();
-        this.thisUserEvents = calendar.getMyEvents(name);
+        this.allMyEvents = calendar.getEvents();
+        this.thisUserMyEvents = calendar.getMyEvents(name);
         jsonWriter = new JsonWriter(JSON_STORE);
         loginPage = new LoginPage();
+        frame.addWindowListener(new PrintLog());
     }
 
     // EFFECTS: run main page
@@ -131,7 +132,8 @@ public class MainPage extends JFrame implements ActionListener {
         int weekDay = 0;
         int startTime = 0;
         int endTime = 0;
-        if (Event.isNumeric(weekNumString) && Event.isNumeric(startTimeString) && Event.isNumeric(endTimeString)) {
+        if (MyEvent.isNumeric(weekNumString) && MyEvent.isNumeric(startTimeString)
+                && MyEvent.isNumeric(endTimeString)) {
             weekNum = Integer.parseInt(tfWeekNum.getText());
             weekDay = weekStringToNum((String) cbDayNum.getSelectedItem());
             startTime = Integer.parseInt(tfStartTime.getText());
@@ -145,15 +147,15 @@ public class MainPage extends JFrame implements ActionListener {
 
     // EFFECTS: helper method for create event
     private void createEventHelper(int weekNum, String eventName, int weekDay, int startTime, int endTime) {
-        if (!Event.checkWeekDay(weekDay) || !Event.checkTime(startTime, endTime)) {
+        if (!MyEvent.checkWeekDay(weekDay) || !MyEvent.checkTime(startTime, endTime)) {
             inputErrorMsg();
             throw new IllegalArgumentException();
         }
-        Event event = new Event(name, eventName, weekNum, weekDay, startTime, endTime);
-        Event e1 = null;
+        MyEvent myEvent = new MyEvent(name, eventName, weekNum, weekDay, startTime, endTime);
+        MyEvent e1 = null;
 
-        for (Event e : allEvents) {
-            if (e.equals(event)) {
+        for (MyEvent e : allMyEvents) {
+            if (e.equals(myEvent)) {
                 e1 = e;
             }
         }
@@ -161,7 +163,7 @@ public class MainPage extends JFrame implements ActionListener {
         if (e1 != null) {
             JOptionPane.showMessageDialog(null, "Event already exists!");
         } else {
-            calendar.addEvent(event);
+            calendar.addEvent(myEvent);
             JOptionPane.showMessageDialog(null, "Event successfully created!");
         }
         updateCenterPanel();
@@ -176,7 +178,8 @@ public class MainPage extends JFrame implements ActionListener {
         int weekDay = 0;
         int startTime = 0;
         int endTime = 0;
-        if (Event.isNumeric(weekNumString) && Event.isNumeric(startTimeString) && Event.isNumeric(endTimeString)) {
+        if (MyEvent.isNumeric(weekNumString) && MyEvent.isNumeric(startTimeString)
+                && MyEvent.isNumeric(endTimeString)) {
             int weekNum = Integer.parseInt(tfWeekNum.getText());
             weekDay = weekStringToNum((String) cbDayNum.getSelectedItem());
             startTime = Integer.parseInt(tfStartTime.getText());
@@ -190,14 +193,14 @@ public class MainPage extends JFrame implements ActionListener {
 
     // EFFECTS: helper method for delete event
     private void deleteEventHelper(String eventName, int weekDay, int startTime, int endTime) {
-        if (!Event.checkWeekDay(weekDay) || !Event.checkTime(startTime, endTime)) {
+        if (!MyEvent.checkWeekDay(weekDay) || !MyEvent.checkTime(startTime, endTime)) {
             inputErrorMsg();
             throw new IllegalArgumentException();
         }
-        Event event = new Event(name, eventName, weekNum, weekDay, startTime, endTime);
-        Event e1 = null;
-        for (Event e : allEvents) {
-            if (e.equals(event)) {
+        MyEvent myEvent = new MyEvent(name, eventName, weekNum, weekDay, startTime, endTime);
+        MyEvent e1 = null;
+        for (MyEvent e : allMyEvents) {
+            if (e.equals(myEvent)) {
                 e1 = e;
             }
         }
@@ -247,14 +250,14 @@ public class MainPage extends JFrame implements ActionListener {
     public void changeWeekView() {
         weekNum = Integer.parseInt(cbWeekChoose.getSelectedItem().toString());
 
-        List<Event> tempList = new ArrayList<>();
+        List<MyEvent> tempList = new ArrayList<>();
 
-        for (Event e : allEvents) {
+        for (MyEvent e : allMyEvents) {
             if (e.getWeekNum() == weekNum && e.getPersonName().equalsIgnoreCase(name)) {
                 tempList.add(e);
             }
         }
-        thisUserEvents = tempList;
+        thisUserMyEvents = tempList;
         updateCenterPanel();
     }
 
@@ -273,7 +276,7 @@ public class MainPage extends JFrame implements ActionListener {
     // EFFECTS: set up the week selection base on the user's name
     public void addToWeekChoose() {
         List<String> weekNumbers = new ArrayList<>();
-        for (Event e : thisUserEvents) {
+        for (MyEvent e : thisUserMyEvents) {
             if (!weekNumbers.contains(String.valueOf(e.getWeekNum()))) {
                 weekNumbers.add(String.valueOf(e.getWeekNum()));
             }
@@ -340,7 +343,7 @@ public class MainPage extends JFrame implements ActionListener {
     public String[] eventsForToday(int weekDay) {
         List<String> events = new ArrayList<>();
         reorderEvents();
-        for (Event e : calendar.getMyEvents(name)) {
+        for (MyEvent e : calendar.getMyEvents(name)) {
             if (e.getWeekNum() == weekNum && e.getWeekDay() == weekDay) {
                 events.add(e.getEventName() + " " + eventStartEndTime(e));
             }
@@ -349,7 +352,7 @@ public class MainPage extends JFrame implements ActionListener {
     }
 
     // EFFECTS: returns a string combining start and end time
-    public String eventStartEndTime(Event e) {
+    public String eventStartEndTime(MyEvent e) {
         return (intToTime(e.getStartTime()) + " - " + intToTime(e.getEndTime()));
     }
 
@@ -360,13 +363,13 @@ public class MainPage extends JFrame implements ActionListener {
 
     // EFFECTS: return a list of event of the user that is ascending ordered according to start time
     private void reorderEvents() {
-        Comparator<Event> startTimeComparator = new Comparator<Event>() {
+        Comparator<MyEvent> startTimeComparator = new Comparator<MyEvent>() {
             @Override
-            public int compare(Event o1, Event o2) {
+            public int compare(MyEvent o1, MyEvent o2) {
                 return Integer.compare(o1.getStartTime(), o2.getStartTime());
             }
         };
-        Collections.sort(thisUserEvents, startTimeComparator);
+        Collections.sort(thisUserMyEvents, startTimeComparator);
     }
 
     // Bottom Panel: tfWeekNum; cbDayNum; lbWeekNum; lbDayNum; tfStartTime; tfEndTime; lbStartTime; lbEndTime

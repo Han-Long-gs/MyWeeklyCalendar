@@ -1,13 +1,15 @@
 package ui;
 
 import model.Calendar;
-import model.Event;
+import model.MyEvent;
 import persistence.JsonReader;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ import java.util.List;
 
 // REFERENCE: https://www.youtube.com/watch?v=Hiv3gwJC5kw
 // Represents the login page
-public class LoginPage implements ActionListener {
+public class LoginPage extends JFrame implements ActionListener {
     private Calendar calendar;
 
     private JFrame frame;
@@ -60,6 +62,7 @@ public class LoginPage implements ActionListener {
         buttonReset.addActionListener(this);
 
         jsonReader = new JsonReader(JSON_STORE);
+        frame.addWindowListener(new PrintLog());
         init();
     }
 
@@ -73,6 +76,12 @@ public class LoginPage implements ActionListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setUp();
         frame.setVisible(true);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                Main.printEventLog();
+            }
+        });
     }
 
     // EFFECTS: add components to frame
@@ -98,11 +107,11 @@ public class LoginPage implements ActionListener {
 
         if (e.getSource() == buttonCheck) {
             String name = tfName.getText();
-            if (!Event.checkPersonName(name)) {
+            if (!MyEvent.checkPersonName(name)) {
                 inputErrorMsg();
             }
             int weekNum = 0;
-            if (Event.isNumeric(tfWeekNum.getText())) {
+            if (MyEvent.isNumeric(tfWeekNum.getText())) {
                 weekNum = Integer.parseInt(tfWeekNum.getText());
             } else {
                 inputErrorMsg();
@@ -166,7 +175,7 @@ public class LoginPage implements ActionListener {
 
     // EFFECTS: check if there is calendar under given name and week number
     private boolean isCalendarExist(Calendar calendar, String name, int weekNum) {
-        for (Event e : calendar.getMyEvents(name)) {
+        for (MyEvent e : calendar.getMyEvents(name)) {
             if (e.getPersonName().equalsIgnoreCase(name) && e.getWeekNum() == weekNum) {
                 return true;
             }
@@ -176,7 +185,7 @@ public class LoginPage implements ActionListener {
 
     // EFFECTS: check if there is calendar under given name
     private boolean isNameExist(Calendar calendar, String name) {
-        for (Event e : calendar.getMyEvents(name)) {
+        for (MyEvent e : calendar.getMyEvents(name)) {
             if (e.getPersonName().equalsIgnoreCase(name)) {
                 return true;
             }
@@ -187,7 +196,7 @@ public class LoginPage implements ActionListener {
     // EFFECTS: return all the week numbers under the given name
     private String nameExists(Calendar calendar, String name) {
         List<String> weekNumbers = new ArrayList<>();
-        for (Event e : calendar.getMyEvents(name)) {
+        for (MyEvent e : calendar.getMyEvents(name)) {
             if (e.getPersonName().equalsIgnoreCase(name) && !weekNumbers.contains(String.valueOf(e.getWeekNum()))) {
                 weekNumbers.add(Integer.toString(e.getWeekNum()));
             }

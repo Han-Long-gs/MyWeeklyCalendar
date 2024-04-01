@@ -7,7 +7,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 // represents the opening page of the app
-public class OpeningPage {
+public class OpeningPage extends JFrame {
     private JFrame frame;
     private Timer timer;
 
@@ -19,6 +19,7 @@ public class OpeningPage {
         frame.setUndecorated(true);
         frame.setSize(400, 300);
         frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         ImageIcon backgroundImage = new ImageIcon("./src/main/ui/calendar_pic.jpg");
         JLabel backgroundLabel = new JLabel(backgroundImage);

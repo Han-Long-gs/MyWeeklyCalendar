@@ -1,7 +1,7 @@
 package ui;
 
 import model.Calendar;
-import model.Event;
+import model.MyEvent;
 import persistence.JsonWriter;
 
 import javax.swing.*;
@@ -9,7 +9,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.List;
 
 // represents the page for creating new calendar
 public class CreateNewCalendarPage implements ActionListener {
@@ -161,8 +160,8 @@ public class CreateNewCalendarPage implements ActionListener {
         int weekDay = 0;
         int startTime = 0;
         int endTime = 0;
-        if (Event.isNumeric(weekNumString) && Event.isNumeric(weekDayString)
-                && Event.isNumeric(startTimeString) && Event.isNumeric(endTimeString)) {
+        if (MyEvent.isNumeric(weekNumString) && MyEvent.isNumeric(weekDayString)
+                && MyEvent.isNumeric(startTimeString) && MyEvent.isNumeric(endTimeString)) {
             weekNum = Integer.parseInt(weekNumString);
             weekDay = Integer.parseInt(weekDayString);
             startTime = Integer.parseInt(startTimeString);
@@ -172,14 +171,14 @@ public class CreateNewCalendarPage implements ActionListener {
             throw new IllegalArgumentException();
         }
         checkInputValid(name, weekNum, weekDay, startTime, endTime);
-        calendar.addEvent(new Event(name, eventName, weekNum, weekDay, startTime, endTime));
+        calendar.addEvent(new MyEvent(name, eventName, weekNum, weekDay, startTime, endTime));
         saveCalendar();
     }
 
     // EFFECTS: check if the input is valid and the name is not in the calendar yet
     private void checkInputValid(String name, int weekNum, int weekDay, int startTime, int endTime) {
-        if (!Event.checkPersonName(name) || !Event.checkWeekNum(weekNum)
-                || !Event.checkWeekDay(weekDay) || !Event.checkTime(startTime, endTime)) {
+        if (!MyEvent.checkPersonName(name) || !MyEvent.checkWeekNum(weekNum)
+                || !MyEvent.checkWeekDay(weekDay) || !MyEvent.checkTime(startTime, endTime)) {
             inputErrorMsg();
             throw new IllegalArgumentException();
         }
