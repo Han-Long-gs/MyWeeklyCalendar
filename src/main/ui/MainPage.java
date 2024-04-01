@@ -31,6 +31,7 @@ public class MainPage extends JFrame implements ActionListener {
     private static final String JSON_STORE = "./data/calendar.json";
     private JsonWriter jsonWriter;
     private JFrame frame;
+    private MyRenderer myRenderer;
     //Top Panel
     private JLabel lbThisWeek;
     private JLabel lbWeekChoose;
@@ -68,6 +69,7 @@ public class MainPage extends JFrame implements ActionListener {
         jsonWriter = new JsonWriter(JSON_STORE);
         loginPage = new LoginPage();
         frame.addWindowListener(new PrintLog());
+        myRenderer = new MyRenderer();
     }
 
     // EFFECTS: run main page
@@ -309,7 +311,7 @@ public class MainPage extends JFrame implements ActionListener {
         dayPanel.setBackground(new Color(139, 170, 202));
         JLabel label = new JLabel(dayName, SwingConstants.CENTER);
         JList<String> list = new JList<>(events);
-        list.setCellRenderer(new MyRenderer());
+        list.setCellRenderer(myRenderer);
         dayPanel.add(label, BorderLayout.NORTH);
         dayPanel.add(new JScrollPane(list), BorderLayout.CENTER);
 

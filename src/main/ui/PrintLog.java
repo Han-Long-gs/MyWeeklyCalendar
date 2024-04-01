@@ -5,7 +5,6 @@ import model.EventLog;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.Iterator;
 
 public class PrintLog implements WindowListener {
     EventLog eventLog;

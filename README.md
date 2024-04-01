@@ -39,3 +39,11 @@ Added to Calendar: han, lunch, 4, 5, 1400, 1500
 Sun Mar 31 18:56:39 PDT 2024
 Removed from Calendar: han, study, 5, 2, 1200, 1300
 
+### Phase 4: Task 3
+By drawing out the UML graph of my project, I noticed that there are many classes in my project has a field of Calendar
+and the methods in the calendar are also called in these classes to modify the calendar, which will increase the direct
+coupling between calendar and all these classes.
+
+To improve the design of my project, I think I might be able to integrate the Observer design pattern with the hope of 
+reduce the coupling. When the calendar status changed, all the classes should be notified and update the status instead
+of making the changes to the same object in each class.

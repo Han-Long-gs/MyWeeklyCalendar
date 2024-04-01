@@ -14,7 +14,6 @@ import java.util.List;
 // represents the page for checking friend valid time
 public class CheckFriendPage implements ActionListener {
     private Calendar calendar;
-    private List<MyEvent> myEvents;
     private String userName;
 
     private JFrame frame;

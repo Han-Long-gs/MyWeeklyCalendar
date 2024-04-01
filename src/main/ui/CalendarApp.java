@@ -18,7 +18,6 @@ import java.util.Scanner;
 // represents the interactive behaviors with users of the calendar app
 public class CalendarApp {
     private Scanner input;
-    private MyEvent myEvent;
     private Calendar calendar;
     private List<MyEvent> myEvents;
     private static final String JSON_STORE = "./data/calendar.json";
@@ -28,7 +27,6 @@ public class CalendarApp {
 
     // start the app, initialize the calendar and the reader and the writer, throws exception if file not found
     public CalendarApp() throws FileNotFoundException {
-        myEvent = new MyEvent("han", "study", 5, 2, 1200, 1300);
         calendar = new Calendar("han");
         jsonReader = new JsonReader(JSON_STORE);
         jsonWriter = new JsonWriter(JSON_STORE);
@@ -135,12 +133,12 @@ public class CalendarApp {
     private void checkFriendTime() throws IllegalInputException {
         System.out.println("Type your name");
         String name = stringInput();
-        if (!myEvent.checkPersonName(name)) {
+        if (!MyEvent.checkPersonName(name)) {
             throw new IllegalInputException();
         }
         System.out.println("Type your friend's name");
         String friendName = stringInput();
-        if (!myEvent.checkPersonName(friendName)) {
+        if (!MyEvent.checkPersonName(friendName)) {
             throw new IllegalInputException();
         }
         if (!calendar.findName(friendName)) {
@@ -221,8 +219,8 @@ public class CalendarApp {
         int endTime = intInput();
 
         MyEvent myEvent = new MyEvent(name, eventName, weekNum, weekDay, startTime, endTime);
-        if (!myEvent.checkPersonName(name) || !myEvent.checkWeekNum(weekNum) || !myEvent.checkWeekDay(weekDay)
-                || !myEvent.checkTime(startTime, endTime)) {
+        if (!MyEvent.checkPersonName(name) || !MyEvent.checkWeekNum(weekNum) || !MyEvent.checkWeekDay(weekDay)
+                || !MyEvent.checkTime(startTime, endTime)) {
             throw new IllegalInputException();
         }
         calendar.addEvent(myEvent);
@@ -246,9 +244,8 @@ public class CalendarApp {
         int startTime = intInput();
         System.out.println("please input your event end time");
         int endTime = intInput();
-        myEvent = new MyEvent(name, eventName, weekNum, weekDay, startTime, endTime);
-        if (!myEvent.checkPersonName(name) || !myEvent.checkWeekNum(weekNum) || !myEvent.checkWeekDay(weekDay)
-                || !myEvent.checkTime(startTime, endTime)) {
+        if (!MyEvent.checkPersonName(name) || !MyEvent.checkWeekNum(weekNum) || !MyEvent.checkWeekDay(weekDay)
+                || !MyEvent.checkTime(startTime, endTime)) {
             throw new IllegalInputException();
         }
         if (removeEvent(name, eventName, weekNum, weekDay, startTime, endTime)) {
