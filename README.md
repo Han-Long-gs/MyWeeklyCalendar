@@ -3,7 +3,7 @@
 ## A calendar app that can tell whether your friend is valid
 
 ### Description
-When I joined a study group for CPSC 110 last semester, I found it 
+When I joined a study group for CPSC 110, I found it 
 difficult to efficiently track when the members of the group were
 available. Each person had a different schedule, and I struggled to
 find an ideal app for sharing schedules. This is why I decided to 

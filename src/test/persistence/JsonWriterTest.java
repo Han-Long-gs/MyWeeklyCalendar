@@ -9,7 +9,6 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
 // a test class for JsonWriter class
-// CREDIT: JsonSerializationDemo
 public class JsonWriterTest extends JsonTest {
     @Test
     void testWriterInvalidFile() {

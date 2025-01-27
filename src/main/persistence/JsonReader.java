@@ -12,7 +12,6 @@ import java.util.stream.Stream;
 import org.json.*;
 
 // represents a reader that reads calendar from JSON data stored in file
-// CREDIT: JsonSerializationDemo
 public class JsonReader {
     private String source;
 
